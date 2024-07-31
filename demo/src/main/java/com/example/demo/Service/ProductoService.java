@@ -37,7 +37,7 @@ public class ProductoService {
         Optional<Producto> optionalProducto = productoRepository.findByNombre(nombre);
         return optionalProducto.orElse(null);
     }
-    public void actualizarProducto(String nombre, int nuevoStock) {
+    public void actualizarProducto(String nombre, Double nuevoStock) {
         Optional<Producto> optionalProducto = productoRepository.findByNombre(nombre);
         if (optionalProducto.isPresent()) {
             Producto producto = optionalProducto.get();

@@ -28,7 +28,7 @@ public class DetalleVentaService {
     public DetalleVenta save(DetalleVenta detalleVenta) {
         return detalleVentaRepository.save(detalleVenta);
     }
-    public List<Integer> getCantidadByProductoId(Long productoId) {
+    public List<Double> getCantidadByProductoId(Long productoId) {
         return detalleVentaRepository.findCantidadByProductoId(productoId);
     }
 

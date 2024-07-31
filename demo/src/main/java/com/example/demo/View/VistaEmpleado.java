@@ -691,7 +691,7 @@ public class VistaEmpleado extends JFrame {
                 factura.append(String.format(" %-30s %-15.2f %-15.2f %-15.2f\n", nombreProducto, precioUnitario, cantidadComprada, totalDolares));
 
                 // Actualizar stock en la base de datos
-                int nuevoStock = producto.getStock() - (int) cantidadComprada;
+                double nuevoStock = producto.getStock() - cantidadComprada;
                 controler.actualizarStock1(producto, nuevoStock);
             } else {
                 JOptionPane.showMessageDialog(this, "Producto no encontrado: " + nombreProducto);

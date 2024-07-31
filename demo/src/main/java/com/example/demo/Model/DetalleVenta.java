@@ -8,7 +8,7 @@ public class DetalleVenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer cantidad;
+    private Double cantidad;
     private Double precioUnitario;
     private Double subtotal;
 
@@ -22,11 +22,11 @@ public class DetalleVenta {
 
 
 
-    public Integer getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 

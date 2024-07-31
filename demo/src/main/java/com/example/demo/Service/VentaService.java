@@ -44,28 +44,7 @@ public class VentaService {
         ventaRepository.deleteById(id);
     }
 
-    public void registrarVenta(List<String> nombresProductos, double total, String metodoPago, Cliente cliente, Usuario usuario) {
-        // Crear una nueva instancia de Venta
-        Venta venta = new Venta();
-        venta.setCliente(cliente);
-        venta.setFecha(LocalDateTime.now()); // Fecha actual
-        venta.setUsuario(usuario);
 
-        // Guardar la venta en la base de datos
-        Venta ventaGuardada = ventaRepository.save(venta);
-
-        // Registrar los detalles de la venta
-        for (String nombreProducto : nombresProductos) {
-            Producto producto = productoService.findProductoByName(nombreProducto);
-            if (producto != null) {
-                DetalleVenta detalleVenta = new DetalleVenta();
-                detalleVenta.setVenta(ventaGuardada);
-                detalleVenta.setProducto(producto);
-                detalleVenta.setCantidad(1); // Suponiendo que se vende una unidad por nombre de producto
-                detalleVentaService.save(detalleVenta);
-            }
-        }
-    }
 
     public double getTotalVentasByUsuarioId(Long usuarioId) {
         List<Venta> ventas = ventaRepository.findByUsuarioId(usuarioId);

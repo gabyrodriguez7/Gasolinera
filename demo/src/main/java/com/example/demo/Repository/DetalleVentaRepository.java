@@ -10,5 +10,5 @@ import java.util.List;
 public interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Long> {
 
     @Query("SELECT dv.cantidad FROM DetalleVenta dv WHERE dv.producto.id = :productoId")
-    List<Integer> findCantidadByProductoId(@Param("productoId") Long productoId);
+    List<Double> findCantidadByProductoId(@Param("productoId") Long productoId);
 }

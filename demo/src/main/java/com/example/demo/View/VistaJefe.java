@@ -22,6 +22,8 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import static java.lang.String.format;
+
 public class VistaJefe extends JFrame {
     private JTextArea txtInventario;
     private JTextArea txtEmpleados;
@@ -183,7 +185,7 @@ public class VistaJefe extends JFrame {
 
 
                 double precio = Double.parseDouble(precioStr);
-                int stock = Integer.parseInt(stockStr);
+                double stock = Integer.parseInt(stockStr);
 
 
                 Producto producto = new Producto();
@@ -254,7 +256,7 @@ public class VistaJefe extends JFrame {
             try {
                 int nuevoStock = Integer.parseInt(nuevoStockStr);
                 Producto producto = optionalProducto.get();
-                int StockNuevo = producto.getStock() + (int) nuevoStock;
+                double StockNuevo = producto.getStock() + (int) nuevoStock;
                 // Llamar al controlador para actualizar el stock del producto
                 boolean  actualizado =controler.actualizarStock(producto, StockNuevo);
 
@@ -332,7 +334,7 @@ public class VistaJefe extends JFrame {
 
 
         for (Producto producto : productos) {
-            String infoProducto = String.format("Nombre: %s, Precio: %.2f, Stock: %d\n", producto.getNombre(), producto.getPrecio(), producto.getStock());
+            String infoProducto = format("Nombre: %s, Precio: %.2f, Stock: %.2f\n", producto.getNombre(), producto.getPrecio(), producto.getStock());
             txtInventario.append(infoProducto);
         }
     }
@@ -341,7 +343,7 @@ public class VistaJefe extends JFrame {
 
 
         panelVentaPorEmpleado.add(createPeriodComboBox(), BorderLayout.NORTH);
-        panelVentaPorEmpleado.add(createChartPanel2(), BorderLayout.CENTER); // Panel para el gráfico de ventas por empleado
+        panelVentaPorEmpleado.add(createChartPanel2(), BorderLayout.CENTER);
 
         return panelVentaPorEmpleado;
     }
@@ -393,15 +395,7 @@ public class VistaJefe extends JFrame {
     }
 
     private ChartPanel createChartPanel() {
-        DefaultCategoryDataset dataset = createDataset(); // Obtiene el dataset
-
-        // Verifica si el dataset tiene datos
-        if (dataset.getColumnCount() == 0) {
-            // Si no hay datos, se puede mostrar un mensaje o retornar un gráfico vacío
-            System.out.println("No hay datos para las fechas seleccionadas.");
-            return new ChartPanel(ChartFactory.createBarChart(
-                    "No hay datos disponibles", "Producto", "Cantidad Vendida", null));
-        }
+        DefaultCategoryDataset dataset = createDataset();
 
         String chartTitle = "Productos más Vendidos";
         String categoryAxisLabel = "Producto";
@@ -414,12 +408,11 @@ public class VistaJefe extends JFrame {
 
 
     private ChartPanel createChartPanel2() {
-        DefaultCategoryDataset dataset = createDataset2(); // Obtener el dataset
+        DefaultCategoryDataset dataset = createDataset2();
 
         // Verificar si el dataset tiene datos
         if (dataset.getColumnCount() == 0) {
-            // Si no hay datos, mostrar un mensaje o un gráfico vacío
-            System.out.println("No hay datos disponibles para mostrar la gráfica.");
+
             return new ChartPanel(ChartFactory.createBarChart(
                     "No hay datos disponibles", "Empleado", "Dinero Vendido", null));
         }
@@ -437,10 +430,9 @@ public class VistaJefe extends JFrame {
     private DefaultCategoryDataset createDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        // Obtener la lista de productos y sus cantidades vendidas
         List<Producto> productos = controler.cargarDatosProductos();
         for (Producto producto : productos) {
-            int cantidadVendida = controler.someBusinessMethod(producto.getId()); // Obtener la cantidad vendida para este producto
+            double cantidadVendida = controler.someBusinessMethod(producto.getId());
             dataset.addValue(cantidadVendida, "Productos", producto.getNombre());
         }
 
@@ -449,13 +441,10 @@ public class VistaJefe extends JFrame {
     private DefaultCategoryDataset createDataset2() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
-        // Obtener todos los usuarios con rol "EMPLEADO"
         List<Usuario> empleados = controler.buscarUsuariosPorRol("EMPLEADO");
-
-        // Iterar sobre cada empleado para obtener las ventas totales
         for (Usuario empleado : empleados) {
             double totalVentas = controler.getTotalVentasByUsuarioId(empleado.getId());
-            dataset.addValue(totalVentas, "Ventas", empleado.getUsername()); // Aquí se puede usar getNombre() si se ha definido
+            dataset.addValue(totalVentas, "Ventas", empleado.getUsername());
         }
 
         return dataset;

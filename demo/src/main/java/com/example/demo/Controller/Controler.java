@@ -112,7 +112,7 @@ public class Controler {
                 DetalleVenta nuevoDetalleVenta = new DetalleVenta();
                 nuevoDetalleVenta.setVenta(nuevaVenta);
                 nuevoDetalleVenta.setProducto(producto);
-                nuevoDetalleVenta.setCantidad((int) cantidad);
+                nuevoDetalleVenta.setCantidad(cantidad);
                 nuevoDetalleVenta.setPrecioUnitario(producto.getPrecio());
                 nuevoDetalleVenta.setSubtotal(nuevoDetalleVenta.getPrecioUnitario() * cantidad);
                 detalleVentaService.save(nuevoDetalleVenta);
@@ -120,7 +120,7 @@ public class Controler {
                 totalVenta += nuevoDetalleVenta.getSubtotal();
 
 
-                producto.setStock((int) (producto.getStock() - cantidad));
+                producto.setStock( (producto.getStock() - cantidad));
                 productoService.save(producto);
             } else {
                 return false; // Product not found
@@ -134,13 +134,12 @@ public class Controler {
         return true;
     }
 
-    public List<Integer> getCantidadByProductoId(Long productoId) {
-        return detalleVentaService.getCantidadByProductoId(productoId);
-    }
 
-    public int someBusinessMethod(Long productoId) {
-        List<Integer> cantidades = detalleVentaService.getCantidadByProductoId(productoId);
-        return cantidades.stream().mapToInt(Integer::intValue).sum();
+    public double someBusinessMethod(Long productoId) {
+        List<Double> cantidades = detalleVentaService.getCantidadByProductoId(productoId);
+        System.out.println(cantidades.toString());
+        System.out.println(cantidades.stream().mapToDouble(Double::doubleValue).sum());
+        return cantidades.stream().mapToDouble(Double::doubleValue).sum();
     }
 
     public String nameUser() {
@@ -180,10 +179,10 @@ public class Controler {
         productoService.save(producto);
     }
 
-    public void updateProducto(String nameP, int Strock) {
+    public void updateProducto(String nameP, Double Strock) {
         productoService.actualizarProducto(nameP, Strock);
     }
-    public void actualizarStock1(Producto producto, int nuevoStock) {
+    public void actualizarStock1(Producto producto, Double nuevoStock) {
         Optional<Producto> optionalProducto = Optional.ofNullable(productoService.findProductoById(producto.getId()));
 
         if (optionalProducto.isPresent()) {
@@ -199,7 +198,7 @@ public class Controler {
         }
     }
 
-    public boolean actualizarStock(Producto producto, int nuevoStock) {
+    public boolean actualizarStock(Producto producto, Double nuevoStock) {
         Optional<Producto> optionalProducto = Optional.ofNullable(productoService.findProductoById(producto.getId()));
 
         if (optionalProducto.isPresent()) {
